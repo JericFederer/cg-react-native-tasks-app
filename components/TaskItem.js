@@ -1,16 +1,27 @@
 import {
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  Pressable
 } from "react-native";
 
 function TaskItem(props) {
+  // * Deconstruct props
+  let { text, id, onDeleteItem } = props;
+
   return (
-    <View 
-      style={ styles.taskView }
-    >
-      <Text style={ styles.taskText }>{ props.text }</Text>
-    </View>
+      <View
+        style={ styles.taskView }
+      >
+        <Pressable
+          onPress={ onDeleteItem.bind(this, id) }
+          // * '{ pressed }' is deconstructed from argumentName.pressed
+          // * This will also work: (pressData) => pressData.pressed && styles.pressedItem 
+          style={ ({ pressed }) => pressed && styles.pressedItem }
+        >
+          <Text style={ styles.taskText }>{ text }</Text>
+        </Pressable>
+      </View>
   )
 };
 
@@ -25,5 +36,8 @@ const styles = StyleSheet.create({
   },
   taskText: {
     color: 'white'
+  },
+  pressedItem: {
+    opacity: 0.5
   }
 });
